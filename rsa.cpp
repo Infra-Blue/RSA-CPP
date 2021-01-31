@@ -1,4 +1,5 @@
 #include <utility>
+#include <iostream>
 
 std::pair<int, int> extended_eucledian(int e, int totient)
 {
@@ -16,15 +17,36 @@ int modular_inverse(int e, int totient)
 }
 
 
-unsigned long modular_exp(const int &base, int pow, const int &mod) 
+unsigned long modular_exp(int &base, int pow, const int &mod) 
 {
-    static const int base_mod = base % mod;
     if (pow == 1)
-        return base_mod;
+        return base = base % mod;
     unsigned long half_compute, res;
     half_compute = modular_exp(base, pow >> 1, mod);
     res = (half_compute * half_compute) % mod; 
-    return pow & 1 ? (base_mod * res) % mod : res % mod;
+    return pow & 1 ? (base * res) % mod : res % mod;
+}
+
+
+int main()
+{
+    int p = 61, 
+        q = 53, 
+        n = p * q,  // 3233
+        totient = (p - 1) * (q - 1),  // 3120 
+        e = 17,  //  e > 1, co-prime to totient
+        d = modular_inverse(e, totient), 
+        message = 123;
+
+    
+    /// ENCRYPTION ///
+    int cipher = modular_exp(message, e, n);
+    std::cout << "Cipher Text : " << cipher << std::endl;
+
+
+    /// DECRYPTION ///
+    message = modular_exp(cipher, d, n);
+    std::cout << "Plain Text : " << message << std::endl;
 }
 
 
