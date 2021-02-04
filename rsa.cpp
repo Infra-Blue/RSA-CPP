@@ -40,12 +40,12 @@ int main()
 
     
     /// ENCRYPTION ///
-    int cipher = modular_exp(message, e, n);
+    int cipher = modular_exp(message, d, n);
     std::cout << "Cipher Text : " << cipher << std::endl;
 
 
     /// DECRYPTION ///
-    message = modular_exp(cipher, d, n);
+    message = modular_exp(cipher, e, n);
     std::cout << "Plain Text : " << message << std::endl;
 }
 
